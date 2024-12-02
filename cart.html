@@ -8,21 +8,80 @@
 </head>
 <body>
     <header>
-        <h1>Your Shopping Cart</h1>
+        <h1>Your Cart</h1>
         <nav>
             <a href="index.html">Home</a> | 
             <a href="checkout.html">Checkout</a>
         </nav>
     </header>
 
-    <div id="cartContent" class="cart-content">
-        <!-- Cart items will be dynamically displayed here -->
+    <div class="cart-items">
+        <h2>Items in your cart</h2>
+        <ul id="cart-list"></ul>
+        <p>Total: $<span id="total-price">0.00</span></p>
+        <button id="clear-cart" onclick="clearCart()">Clear Cart</button>
     </div>
 
     <footer>
         <p>&copy; 2024 Electronic Goods Store</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartList = document.getElementById('cart-list');
+        let totalPrice = 0;
+
+        // Display items in the cart
+        function displayCart() {
+            cartList.innerHTML = ''; // Clear current cart list
+            totalPrice = 0; // Reset total price
+
+            cart.forEach((item, index) => {
+                let listItem = document.createElement('li');
+                listItem.textContent = `${item.name} - $${item.price}`;
+                
+                // Create remove button
+                let removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeFromCart(index);
+
+                listItem.appendChild(removeButton);
+                cartList.appendChild(listItem);
+                
+                totalPrice += item.price;
+            });
+
+            // Display total price
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            // Remove item from cart array
+            cart.splice(index, 1);
+            
+            // Update localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart display
+            displayCart();
+        }
+
+        // Clear entire cart
+        function clearCart() {
+            // Clear cart array
+            cart = [];
+
+            // Update localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Update cart display
+            displayCart();
+        }
+
+        // Initialize the cart display
+        displayCart();
+    </script>
 </body>
 </html>

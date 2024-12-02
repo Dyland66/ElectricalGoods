@@ -11,7 +11,7 @@
         <h1>Welcome to the Electronic Goods Store</h1>
         <nav>
             <a href="index.html">Home</a> | 
-            <a href="cart.html">Your Cart</a> |
+            <a href="cart.html">Your Cart (<span id="cart-count">0</span>)</a> |
             <a href="checkout.html">Checkout</a>
         </nav>
     </header>
@@ -28,7 +28,7 @@
             <h3>iPhone 14</h3>
             <p>Latest iPhone with amazing features</p>
             <p>$999.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('iPhone 14', 999.99)">Add to Cart</button>
         </div>
 
         <!-- Product 2: LED TV -->
@@ -37,7 +37,7 @@
             <h3>LED TV 50 inch</h3>
             <p>High-definition smart TV</p>
             <p>$499.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('LED TV 50 inch', 499.99)">Add to Cart</button>
         </div>
 
         <!-- Product 3: Xbox -->
@@ -46,7 +46,7 @@
             <h3>Xbox Series X</h3>
             <p>Next-gen gaming console</p>
             <p>$499.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('Xbox Series X', 499.99)">Add to Cart</button>
         </div>
 
         <!-- Product 4: Toaster -->
@@ -55,7 +55,7 @@
             <h3>Smart Toaster</h3>
             <p>Smart toaster with quick heating</p>
             <p>$39.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('Smart Toaster', 39.99)">Add to Cart</button>
         </div>
 
         <!-- Product 5: Smart Watch -->
@@ -64,12 +64,29 @@
             <h3>Smart Watch</h3>
             <p>Wearable technology to track health</p>
             <p>$199.99</p>
-            <button>Add to Cart</button>
+            <button onclick="addToCart('Smart Watch', 199.99)">Add to Cart</button>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2024 Electronic Goods Store</p>
     </footer>
+
+    <script>
+        // Initialize cart from localStorage or as empty array
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Update cart count on page load
+        document.getElementById('cart-count').textContent = cart.length;
+
+        // Function to add items to cart
+        function addToCart(productName, price) {
+            const product = { name: productName, price: price };
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart-count').textContent = cart.length;
+            alert(`${productName} added to your cart!`);
+        }
+    </script>
 </body>
 </html>
